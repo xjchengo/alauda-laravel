@@ -21,9 +21,9 @@ apt-get install -y wget
 locale-gen en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# # Add A Few PPAs To Stay Current
+# Add A Few PPAs To Stay Current
 
-# apt-get install -y software-properties-common
+apt-get install -y software-properties-common
 
 # check proxy
 env | grep proxy
