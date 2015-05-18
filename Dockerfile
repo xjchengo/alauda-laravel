@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER xjchengo
 
-# COPY . /root/alauda
+COPY . /root/alauda
 # ENV DEBIAN_FRONTEND noninteractive
 
 # RUN chmod +x /root/alauda/all_in_one.sh
