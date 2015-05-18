@@ -7,23 +7,26 @@ cp /root/alauda/sources.list /etc/apt/sources.list
 apt-get update
 apt-get install -y wget
 
-# Install ssh server
+# # Install ssh server
 
-apt-get install -y openssh-server
-mkdir /var/run/sshd
-echo 'root:secret' | chpasswd
-sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-echo "export VISIBLE=now" >> /etc/profile
+# apt-get install -y openssh-server
+# mkdir /var/run/sshd
+# echo 'root:secret' | chpasswd
+# sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+# sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+# echo "export VISIBLE=now" >> /etc/profile
 
 # UTF-8 support
 
 locale-gen en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# Add A Few PPAs To Stay Current
+# # Add A Few PPAs To Stay Current
 
-apt-get install -y software-properties-common
+# apt-get install -y software-properties-common
+
+# check proxy
+env | grep proxy
 
 apt-add-repository ppa:nginx/stable -y
 apt-add-repository ppa:rwky/redis -y
