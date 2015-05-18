@@ -7,6 +7,7 @@ COPY . /root/alauda
 # RUN chmod +x /root/alauda/all_in_one.sh
 # RUN /root/alauda/all_in_one.sh
 
+RUN mkdir -p /etc/supervisor/conf.d
 RUN mv /root/alauda/supervisord.conf /etc/supervisor/conf.d
 
 # EXPOSE 22 80 3306
