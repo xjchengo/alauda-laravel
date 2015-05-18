@@ -7,7 +7,7 @@ MAINTAINER xjchengo
 # RUN chmod +x /root/alauda/all_in_one.sh
 # RUN /root/alauda/all_in_one.sh
 
-RUN mv /root/aladua/supervisord.conf /etc/supervisor/conf.d
+RUN mv /root/alauda/supervisord.conf /etc/supervisor/conf.d
 
 # EXPOSE 22 80 3306
 # CMD ["supervisord"]
