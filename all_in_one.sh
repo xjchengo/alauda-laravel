@@ -25,13 +25,17 @@ export LANG=en_US.UTF-8
 
 apt-get install -y software-properties-common
 
-# check proxy
-env | grep proxy
+# trying to install PPA behind firewall fails:
 
-apt-add-repository ppa:nginx/stable -y
-apt-add-repository ppa:rwky/redis -y
-apt-add-repository ppa:chris-lea/node.js -y
-apt-add-repository ppa:ondrej/php5-5.6 -y
+# apt-add-repository ppa:nginx/stable -y
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C300EE8C
+# apt-add-repository ppa:rwky/redis -y
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5862E31D
+# apt-add-repository ppa:chris-lea/node.js -y
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C7917B12
+# apt-add-repository ppa:ondrej/php5-5.6 -y
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E5267A6C
+
 
 # # Setup Postgres 9.4 Repositories
 
