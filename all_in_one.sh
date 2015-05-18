@@ -30,188 +30,188 @@ apt-add-repository ppa:rwky/redis -y
 apt-add-repository ppa:chris-lea/node.js -y
 apt-add-repository ppa:ondrej/php5-5.6 -y
 
-# Setup Postgres 9.4 Repositories
+# # Setup Postgres 9.4 Repositories
 
-wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
-sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
+# wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+# sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" >> /etc/apt/sources.list.d/postgresql.list'
 
-# Update Package Lists
+# # Update Package Lists
 
-apt-get update
+# apt-get update
 
-# Base Packages
+# # Base Packages
 
-apt-get install -y build-essential curl gcc git libmcrypt4 libpcre3-dev \
-make python-pip supervisor unzip whois vim
+# apt-get install -y build-essential curl gcc git libmcrypt4 libpcre3-dev \
+# make python-pip supervisor unzip whois vim
 
-# Install Python Httpie
+# # Install Python Httpie
 
-pip install httpie
+# pip install httpie
 
-# Set The Timezone
+# # Set The Timezone
 
-ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+# ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 
-# Install Base PHP Packages
+# # Install Base PHP Packages
 
-apt-get install -y php5-cli php5-dev php-pear \
-php5-mysqlnd php5-pgsql php5-sqlite \
-php5-apcu php5-json php5-curl php5-dev php5-gd \
-php5-gmp php5-imap php5-mcrypt php5-memcached php5-xdebug
+# apt-get install -y php5-cli php5-dev php-pear \
+# php5-mysqlnd php5-pgsql php5-sqlite \
+# php5-apcu php5-json php5-curl php5-dev php5-gd \
+# php5-gmp php5-imap php5-mcrypt php5-memcached php5-xdebug
 
-# Make The MCrypt Extension Available
+# # Make The MCrypt Extension Available
 
-php5enmod mcrypt
+# php5enmod mcrypt
 
-# Install Composer Package Manager
+# # Install Composer Package Manager
 
-curl -sS https://getcomposer.org/installer | php
-mv composer.phar /usr/local/bin/composer
+# curl -sS https://getcomposer.org/installer | php
+# mv composer.phar /usr/local/bin/composer
 
-# Misc. PHP CLI Configuration
+# # Misc. PHP CLI Configuration
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/cli/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/cli/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
+# sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
+# sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/cli/php.ini
+# sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/cli/php.ini
+# sed -i "s/;date.timezone.*/date.timezone = Asia/Shanghai/" /etc/php5/cli/php.ini
 
-# Setup Forge User
+# # Setup Alauda User
 
-useradd xjchen
-mkdir -p /home/xjchen/.ssh
-mkdir -p /home/xjchen/.xjchen
-adduser xjchen sudo
+# useradd alauda
+# mkdir -p /home/alauda/.ssh
+# mkdir -p /home/alauda/.alauda
+# adduser alauda sudo
 
-# Setup Bash For xjchen User
+# # Setup Bash For alauda User
 
-chsh -s /bin/bash xjchen
-cp /root/.profile /home/xjchen/.profile
-cp /root/.bashrc /home/xjchen/.bashrc
+# chsh -s /bin/bash alauda
+# cp /root/.profile /home/alauda/.profile
+# cp /root/.bashrc /home/alauda/.bashrc
 
-# Set The Sudo Password For xjchen
+# # Set The Sudo Password For alauda
 
-PASSWORD=$(mkpasswd 1O6XidSsB4Frr2OvPoK7)
-usermod --password $PASSWORD xjchen
+# PASSWORD=$(mkpasswd alauda)
+# usermod --password $PASSWORD alauda
 
-# Setup Site Directory Permissions
+# # Setup Site Directory Permissions
 
-chown -R xjchen:xjchen /home/xjchen
-chmod -R 755 /home/xjchen
+# chown -R alauda:alauda /home/alauda
+# chmod -R 755 /home/alauda
 
-# Install Nginx & PHP-FPM
+# # Install Nginx & PHP-FPM
 
-apt-get install -y nginx php5-fpm
+# apt-get install -y nginx php5-fpm
 
-# Disable The Default Nginx Site
+# # Disable The Default Nginx Site
 
-rm /etc/nginx/sites-enabled/default
-rm /etc/nginx/sites-available/default
-service nginx restart
+# rm /etc/nginx/sites-enabled/default
+# rm /etc/nginx/sites-available/default
+# service nginx restart
 
-# Tweak Some PHP-FPM Settings
+# # Tweak Some PHP-FPM Settings
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/fpm/php.ini
-sed -i "s/\;session.save_path = .*/session.save_path = \"\/var\/lib\/php5\/sessions\"/" /etc/php5/fpm/php.ini
+# sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/fpm/php.ini
+# sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/fpm/php.ini
+# sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
+# sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/fpm/php.ini
+# sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/fpm/php.ini
+# sed -i "s/\;session.save_path = .*/session.save_path = \"\/var\/lib\/php5\/sessions\"/" /etc/php5/fpm/php.ini
 
-# Configure Nginx & PHP-FPM To Run As root
+# # Configure Nginx & PHP-FPM To Run As alauda
 
-sed -i "s/user www-data;/user xjchen;/" /etc/nginx/nginx.conf
-sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
+# sed -i "s/user www-data;/user alauda;/" /etc/nginx/nginx.conf
+# sed -i "s/# server_names_hash_bucket_size.*/server_names_hash_bucket_size 64;/" /etc/nginx/nginx.conf
 
-sed -i "s/^user = www-data/user = xjchen/" /etc/php5/fpm/pool.d/www.conf
-sed -i "s/^group = www-data/group = xjchen/" /etc/php5/fpm/pool.d/www.conf
+# sed -i "s/^user = www-data/user = alauda/" /etc/php5/fpm/pool.d/www.conf
+# sed -i "s/^group = www-data/group = alauda/" /etc/php5/fpm/pool.d/www.conf
 
-sed -i "s/;listen\.owner.*/listen.owner = xjchen/" /etc/php5/fpm/pool.d/www.conf
-sed -i "s/;listen\.group.*/listen.group = xjchen/" /etc/php5/fpm/pool.d/www.conf
-sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php5/fpm/pool.d/www.conf
+# sed -i "s/;listen\.owner.*/listen.owner = alauda/" /etc/php5/fpm/pool.d/www.conf
+# sed -i "s/;listen\.group.*/listen.group = alauda/" /etc/php5/fpm/pool.d/www.conf
+# sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php5/fpm/pool.d/www.conf
 
-# Configure A Few More Server Things
+# # Configure A Few More Server Things
 
-sed -i "s/;request_terminate_timeout.*/request_terminate_timeout = 60/" /etc/php5/fpm/pool.d/www.conf
-sed -i "s/worker_processes.*/worker_processes auto;/" /etc/nginx/nginx.conf
-sed -i "s/# multi_accept.*/multi_accept on;/" /etc/nginx/nginx.conf
+# sed -i "s/;request_terminate_timeout.*/request_terminate_timeout = 60/" /etc/php5/fpm/pool.d/www.conf
+# sed -i "s/worker_processes.*/worker_processes auto;/" /etc/nginx/nginx.conf
+# sed -i "s/# multi_accept.*/multi_accept on;/" /etc/nginx/nginx.conf
 
-# Install A Catch All Server
+# # Install A Catch All Server
 
-cat > /etc/nginx/sites-available/catch-all << EOF
-server {
-	return 404;
-}
-EOF
+# cat > /etc/nginx/sites-available/catch-all << EOF
+# server {
+# 	return 404;
+# }
+# EOF
 
-ln -s /etc/nginx/sites-available/catch-all /etc/nginx/sites-enabled/catch-all
+# ln -s /etc/nginx/sites-available/catch-all /etc/nginx/sites-enabled/catch-all
 
-# Restart Nginx & PHP-FPM Services
+# # Restart Nginx & PHP-FPM Services
 
-service php5-fpm restart
-service nginx restart
+# service php5-fpm restart
+# service nginx restart
 
-# Add xjchen User To www-data Group
+# # Add alauda User To www-data Group
 
-usermod -a -G www-data xjchen
-id xjchen
-groups xjchen
+# usermod -a -G www-data alauda
+# id alauda
+# groups alauda
 
-#!/bin/bash
-# Install The Mongo Extension
+# #!/bin/bash
+# # Install The Mongo Extension
 
-printf "no\n" | pecl install mongo
-echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
-ln -s /etc/php5/mods-available/mongo.ini /etc/php5/fpm/conf.d/20-mongo.ini
-ln -s /etc/php5/mods-available/mongo.ini /etc/php5/cli/conf.d/20-mongo.ini
+# printf "no\n" | pecl install mongo
+# echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
+# ln -s /etc/php5/mods-available/mongo.ini /etc/php5/fpm/conf.d/20-mongo.ini
+# ln -s /etc/php5/mods-available/mongo.ini /etc/php5/cli/conf.d/20-mongo.ini
 
 
-curl -sL https://deb.nodesource.com/setup_0.12 | bash -
+# curl -sL https://deb.nodesource.com/setup_0.12 | bash -
 
-apt-get install -y nodejs
+# apt-get install -y nodejs
 
-echo 'npm install start'
-npm config set registry https://registry.npm.taobao.org 
-npm install -g pm2
-npm install -g gulp
+# echo 'npm install start'
+# npm config set registry https://registry.npm.taobao.org 
+# npm install -g pm2
+# npm install -g gulp
 
-# Set The Automated Root Password
+# # Set The Automated Root Password
 
-debconf-set-selections <<< "mysql-server mysql-server/root_password password gfAyWTAOpoULPvBZAilz"
-debconf-set-selections <<< "mysql-server mysql-server/root_password_again password gfAyWTAOpoULPvBZAilz"
+# debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
+# debconf-set-selections <<< "mysql-server mysql-server/root_password_again password secret"
 
-# Install MySQL
+# # Install MySQL
 
-apt-get install -y mysql-server
+# apt-get install -y mysql-server
 
-# Configure Access Permissions For Root & xjchen Users
+# # Configure Access Permissions For Root & alauda Users
 
-sed -i '/^bind-address/s/bind-address.*=.*/bind-address = */' /etc/mysql/my.cnf
-# sed -i '/^socket/s/socket.*=.*/socket = \/run\/mysqld\/mysqld.sock/' /etc/mysql/my.cnf
-mysql --user="root" --password="gfAyWTAOpoULPvBZAilz" -e "GRANT ALL ON *.* TO xjchen@'192.168.0.1' IDENTIFIED BY 'gfAyWTAOpoULPvBZAilz';"
-mysql --user="root" --password="gfAyWTAOpoULPvBZAilz" -e "GRANT ALL ON *.* TO xjchen@'%' IDENTIFIED BY 'gfAyWTAOpoULPvBZAilz';"
-service mysql restart
+# sed -i '/^bind-address/s/bind-address.*=.*/bind-address = */' /etc/mysql/my.cnf
+# # sed -i '/^socket/s/socket.*=.*/socket = \/run\/mysqld\/mysqld.sock/' /etc/mysql/my.cnf
+# mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO alauda@'192.168.0.1' IDENTIFIED BY 'secret';"
+# mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO alauda@'%' IDENTIFIED BY 'secret';"
+# service mysql restart
 
-mysql --user="root" --password="gfAyWTAOpoULPvBZAilz" -e "CREATE USER 'xjchen'@'192.168.0.1' IDENTIFIED BY 'gfAyWTAOpoULPvBZAilz';"
-mysql --user="root" --password="gfAyWTAOpoULPvBZAilz" -e "GRANT ALL ON *.* TO 'xjchen'@'192.168.0.1' IDENTIFIED BY 'gfAyWTAOpoULPvBZAilz' WITH GRANT OPTION;"
-mysql --user="root" --password="gfAyWTAOpoULPvBZAilz" -e "GRANT ALL ON *.* TO 'xjchen'@'%' IDENTIFIED BY 'gfAyWTAOpoULPvBZAilz' WITH GRANT OPTION;"
-mysql --user="root" --password="gfAyWTAOpoULPvBZAilz" -e "FLUSH PRIVILEGES;"
+# mysql --user="root" --password="secret" -e "CREATE USER 'alauda'@'192.168.0.1' IDENTIFIED BY 'secret';"
+# mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'alauda'@'192.168.0.1' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+# mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'alauda'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+# mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 
-# Create The Initial Database If Specified
+# # Create The Initial Database If Specified
 
-mysql --user="root" --password="gfAyWTAOpoULPvBZAilz" -e "CREATE DATABASE xjchen;"
+# mysql --user="root" --password="secret" -e "CREATE DATABASE alauda;"
 
-# Install Postgres
+# # Install Postgres
 
-apt-get install -y postgresql-9.4
+# apt-get install -y postgresql-9.4
 
-# Configure Postgres For Remote Access
+# # Configure Postgres For Remote Access
 
-sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.4/main/postgresql.conf
-echo "host    all             all             0.0.0.0/0               md5" | tee -a /etc/postgresql/9.4/main/pg_hba.conf
-sudo -u postgres psql -c "CREATE ROLE xjchen LOGIN UNENCRYPTED PASSWORD 'gfAyWTAOpoULPvBZAilz' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
-service postgresql restart
+# sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.4/main/postgresql.conf
+# echo "host    all             all             0.0.0.0/0               md5" | tee -a /etc/postgresql/9.4/main/pg_hba.conf
+# sudo -u postgres psql -c "CREATE ROLE alauda LOGIN UNENCRYPTED PASSWORD 'secret' SUPERUSER INHERIT NOCREATEDB NOCREATEROLE NOREPLICATION;"
+# service postgresql restart
 
-# Create The Initial Database If Specified
+# # Create The Initial Database If Specified
 
-sudo -u postgres /usr/bin/createdb --echo --owner=xjchen xjchen
+# sudo -u postgres /usr/bin/createdb --echo --owner=alauda alauda
